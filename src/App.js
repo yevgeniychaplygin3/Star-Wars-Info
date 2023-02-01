@@ -19,8 +19,17 @@ function Planets(){
     return (
         <>
             <h1>Planets Page</h1>
+            <aside >
+                <ul>
+                    {Object.keys(planetsData).map(
+                        key => (
+                            <li>
+                                <NavLink to={key}>{planetsData[key].name}</NavLink>
+                            </li>
+                        ))}
+                </ul>
+            </aside>
             <div><Outlet/></div>
-            <a href='/home'>Back to home</a>
         </>
     )
 }
@@ -29,9 +38,25 @@ function Planet(){
     const { planetID } = useParams()
     const currentPlanetData =  planetsData[planetID]
     return (
-        <h1>
-            {currentPlanetData.name}
-        </h1>)
+        <>
+            <h1>
+                {currentPlanetData.name}
+            </h1>
+            <ul>
+                <p>{currentPlanetData.rotation_period}</p>
+                <p>{currentPlanetData.orbital_period}</p>
+                <p>{currentPlanetData.diameter}</p>
+                <p>{currentPlanetData.climate}</p>
+                <p>{currentPlanetData.gravity}</p>
+                <p>{currentPlanetData.terrain}</p>
+                <p>{currentPlanetData.surface_water}</p>
+                <p>{currentPlanetData.population}</p>
+                <p>{currentPlanetData.residents}</p>
+                <p>{currentPlanetData.films}</p>
+                <p>{currentPlanetData.url}</p>
+            </ul>
+        </>
+    )
 }
 
 function People(){
@@ -39,8 +64,14 @@ function People(){
         <>
             <h1>People Page</h1>
             <aside >
-                <ul>
-                    <NavLink to="/people/1">Luke</NavLink>
+                <ul className='scrollbar'>
+                    {Object.keys(peopleData).map(
+                        key=> (
+                            <li key={key}>
+                                <NavLink to={key}> {peopleData[key].name} </NavLink>
+                            </li>
+                        )
+                    )}
                 </ul>
             </aside>
             <div>

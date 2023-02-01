@@ -10,3 +10,12 @@ aside{
     
     background-color: pink;
 }
+
+.scrollbar{
+    scrollbar-color: red green;
+        
+      height: 150px;
+      width: 200px;
+      overflow-y: scroll;
+      background-color: lightgreen; 
+}
