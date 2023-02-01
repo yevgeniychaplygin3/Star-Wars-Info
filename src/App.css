@@ -1,0 +1,12 @@
+body{
+    margin: 5ex;
+}
+.active{
+    background-color: aqua;    
+}
+
+aside{
+    float: left;
+    
+    background-color: pink;
+}
