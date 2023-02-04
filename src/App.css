@@ -1,21 +1,82 @@
 body{
-    margin: 5ex;
+    height: 100%;
+    background-color:ivory;
 }
+a{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.navLink, .sideLink{
+    color:black;
+
+}
+
+#people{
+    margin: 3em 30em 0 0em;
+    float: right;
+}
+ul{
+    list-style-type: none;
+}
+
+li{
+    padding-top: 1em;
+}
+
+label{
+    font-weight: bold;
+}
+
+aside, .scrollbar{
+    float: left;
+    padding-top: 4em;
+    background-color: gray;
+}
+
 .active{
     background-color: aqua;    
 }
 
-aside{
-    float: left;
-    
-    background-color: pink;
+.scrollbar{
+    /* scrollbar-color: red green; */
+        
+      height: 100vh;
+      width:15vw;
+      overflow-y: scroll;
+      /* background-color: lightgreen;  */
 }
 
-.scrollbar{
-    scrollbar-color: red green;
-        
-      height: 150px;
-      width: 200px;
-      overflow-y: scroll;
-      background-color: lightgreen; 
+.navBar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: gray;
+    margin: 0;
+    font-size:xx-large;
+
 }
+.homeLink{
+    background-color: black;
+    color: white;
+}
+.homeLink:active, .active{
+    background-color: darkgrey;    
+    color: white;
+    font-weight: bold;
+}
+
+.content, #homeHeader{
+    padding-top: 3em;
+    margin-left: 3em;
+}
+
+.content{
+    padding-left: 10em;
+}
+
+.scrollbarFilm{
+    height: 300vh;
+    overflow-y: scroll;
+}
+
