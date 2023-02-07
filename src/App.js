@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Routes, Route, Link, NavLink, useParams, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Routes, Route, Link, NavLink, useParams, Outlet, useOutlet } from 'react-router-dom';
 
 import './App.css'
 
@@ -8,17 +8,19 @@ const peopleData = require('./data/people.json')
 const filmData = require('./data/films.json')
 
 function Films(){
+    
+    const outlet = useOutlet()
     return (
         <>
             <aside className='scrollbarFilm'>
                     {Object.keys(filmData).map(
                         key => (
-                            <div>
+                            <div key={key}>
                                 <NavLink className='sideLink' to={key}>{filmData[key].title}</NavLink>
                             </div>
                         ))}
             </aside>
-            <div><Outlet/></div>
+            <div>{outlet || <h1 id='homeHeader'>This page will display information about Star Wars Films</h1>}</div>
 
         </>
     )
@@ -39,7 +41,7 @@ function Film(){
                 <li><label>Characters:</label></li>{
                     Object.keys(currentFilmData.characters).map(
                         i=>
-                        <li>
+                        <li key={i}>
                             <Link to={currentFilmData.characters[i]}>{currentFilmData.characters[i]}</Link>
                         </li>
                     )
@@ -47,7 +49,7 @@ function Film(){
                 <li><label>Planets: </label></li>{
                     Object.keys(currentFilmData.planets).map(
                         i=>
-                        <li>
+                        <li key={i}>
                             <Link to={currentFilmData.planets[i]}>{currentFilmData.planets[i]}</Link>
                         </li>
                     )
@@ -60,22 +62,25 @@ function Film(){
 }
 
 function Planets(){
+    
+    const outlet = useOutlet()
     return (
         <>
             <aside className='scrollbar'>
                     {Object.keys(planetsData).map(
                         key => (
-                            <div >
+                            <div key={key}>
                                 <NavLink className='sideLink' to={key}>{planetsData[key].name}</NavLink>
                             </div>
                         ))}
             </aside>
-            <div><Outlet/></div>
+            <div>{outlet || <h1 id='homeHeader'>This page will display information about Star Wars Planets</h1>}</div>
         </>
     )
 }
 
 function Planet(){
+    
     const { planetID } = useParams()
     const currentPlanetData =  planetsData[planetID]
     return currentPlanetData? (
@@ -89,20 +94,20 @@ function Planet(){
                 <li> <label>Gravity: </label>{currentPlanetData.gravity}</li>
                 <li> <label>Terrain: </label>{currentPlanetData.terrain}</li>
                 <li> <label>Surface Water: </label>{currentPlanetData.surface_water}</li>
-                <li> <label>Population: </label>{currentPlanetData.population}</li>
-                <li> <label>Residents:</label>{
+                <li> <label>Population: </label>{currentPlanetData.population}</li><br></br>
+                 <label>Residents:</label>{
                     Object.keys(currentPlanetData.residents).map(
                         i=>
-                        <li>
+                        <li key={i}>
                             <Link to={currentPlanetData.residents[i]}>{currentPlanetData.residents[i]}</Link>
                         </li>
                     )
-                }</li>
-                
+                }
+                <br></br>
                 <label>Films:</label>{
                     Object.keys(currentPlanetData.films).map(
                         i=>
-                        <li>
+                        <li key={i}>
                             <Link to={currentPlanetData.films[i]}>{currentPlanetData.films[i]}</Link>
                         </li>
                     )
@@ -117,23 +122,21 @@ function Planet(){
 
 
 function People(){
-    const [mainPage, setPage] = useState("People")
 
-
-
+    const outlet = useOutlet()
     return (
-        <div className='flex-container'>
+        <div className='flex-container' >
             <aside className='scrollbar' >
                     {Object.keys(peopleData).map(
                         key=> (
                             <div  key={key}>
-                                <NavLink onClick={()=> setPage("")} className='sideLink' to={key}> {peopleData[key].name} </NavLink>
+                                <NavLink   className='sideLink' to={key}> {peopleData[key].name} </NavLink>
                             </div>
                         )
                     )}
             </aside>
             <div>
-                {mainPage ? <h1 id='people'>people</h1> : <Outlet/>}
+               {outlet || <h1 id='homeHeader'>This page will display information about Star Wars People</h1>}
             </div>
         </div>
     )
@@ -157,7 +160,7 @@ function Person(){
                     <li><label>Films: </label></li>{
                         Object.keys(personData.films).map(
                             i =>
-                            <li>
+                            <li  key={i}>
                                 <Link to={personData.films[i]}>{personData.films[i]}</Link>
                             </li>
                         )
@@ -167,7 +170,9 @@ function Person(){
     ) : <NotFound/>
 }
 
-const Home = () => <h1 id='homeHeader'>A long time ago, in a galaxy far, far away...</h1>
+
+
+const Home = ({content}) => <h1 id='homeHeader'>{content}</h1>
 
 const NotFound = () => <h1 id='homeHeader'>Page Not found</h1>
 
@@ -182,20 +187,23 @@ function App() {
             </ul>
             <Routes>
                 <Route path='/'>
-                    <Route index element={<Home/>}/>
-                    <Route path="people" element={<People/>}>
-                        <Route path=':person' element={<Person/>} />
-                    </Route>
+                    <Route index element={<Home content="A long time ago, in a galaxy far, far away..."/>}/>
 
-                    <Route path="/planets" element={<Planets />} >
-                        <Route path=':planetID' element={<Planet/>} />
-                    </Route>
+                        <Route path="people" element={<People content="peps"/>}>
+                            <Route path=':person' element={<Person/>} />
+                        </Route>
 
-                    
-                    <Route path="/films" element={<Films />} >
-                        <Route path=':filmID' element={<Film/>} />
-                    </Route>
-                    <Route path='*' element={<NotFound/>}/>
+                        <Route path="/planets" element={<Planets />} >
+                            <Route path=':planetID' element={<Planet/>} />
+                        </Route>
+
+                        
+                        <Route path="/films" element={<Films />} >
+                            <Route path=':filmID' element={<Film/>} />
+                        </Route>
+                        
+                        <Route path='*' element={<NotFound/>}/>
+
                 </Route>
             </Routes>
         </>
